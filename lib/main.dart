@@ -35,7 +35,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  TextEditingController _controller = TextEditingController();
+  TextEditingController _controllerSender = TextEditingController();
+  TextEditingController _controllerReceiver = TextEditingController();
+  TextEditingController _controllerKonusmaId = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,7 +45,17 @@ class _MyHomePageState extends State<MyHomePage> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         TextFormField(
-          controller: _controller,
+          decoration: InputDecoration(labelText: "Gönderici adı"),
+          
+          controller: _controllerSender,
+        ),
+        TextFormField(
+          decoration: InputDecoration(labelText: "Alıcı adı"),
+          controller: _controllerReceiver,
+        ),
+        TextFormField(
+          decoration: InputDecoration(labelText: "Konusma id"),
+          controller: _controllerKonusmaId,
         ),
         ElevatedButton(
           onPressed: () async {
@@ -52,8 +64,11 @@ class _MyHomePageState extends State<MyHomePage> {
               MaterialPageRoute(
                 builder: (context) => ChangeNotifierProvider(
                   create: (context) => HomeProvider(),
-                  builder: ((context, child) =>
-                      MessageView(username: _controller.text)),
+                  builder: ((context, child) => MessageView(
+                        konusmaId: int.parse(_controllerKonusmaId.text),
+                        receiverUsername: _controllerReceiver.text,
+                        senderUsername: _controllerSender.text,
+                      )),
                 ),
               ),
             );
